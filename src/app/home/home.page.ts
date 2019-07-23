@@ -20,7 +20,7 @@ export class HomePage {
 
 
   leafletMap() {
-    this.map = new Map('map').setView([16.738560, 100.207789], 6);
+    this.map = new Map('map', { scrollWheelZoom: false }).setView([16.738560, 100.207789], 6);
 
     tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
       maxZoom: 20,
