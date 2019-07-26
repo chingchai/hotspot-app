@@ -4,17 +4,27 @@ ion-content.background {
 }
 
 div.opci {
-    --ion-background-color: rgba(36, 36, 36, 0.6);
+    --ion-background-color: rgba(20, 20, 20, 0.7);
     -webkit-text-fill-color: white;
 }
 
-h1 {
-    font-size: 6.2rem;
+div.f1 {
+    font-size: 5.2rem;
+}
+
+p.i1 {
+    font-size: 1rem;
+    margin-block-start: 0em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
 }
 
 h2 {
     font-size: 1.6rem;
 }
+
+
 
 [Jamjuree] {
     font-family: 'Bai Jamjuree';

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,9 @@ export class HomePage {
   map: Map;
 
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   ionViewDidEnter() {
     this.leafletMap();
@@ -26,10 +29,14 @@ export class HomePage {
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     }).addTo(this.map);
+  }
 
-    const markPoint = marker([12.972442, 77.594563]);
-    markPoint.bindPopup('<p>Tashi Delek - Bangalore.</p>');
-    this.map.addLayer(markPoint);
+  gotoFullmap() {
+    this.router.navigateByUrl('/fullmap')
+  }
+
+  gotoAmphoe() {
+    this.router.navigateByUrl('/amphoe')
   }
 
 }
