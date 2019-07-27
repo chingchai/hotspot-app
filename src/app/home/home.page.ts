@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { NavController, ModalController } from '@ionic/angular';
+import { AmpstatPage } from '../ampstat/ampstat.page';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +11,13 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 })
 export class HomePage {
 
-  map: Map;
+  public map: Map;
+  public value = 1;
 
-
-  constructor() { }
+  constructor(
+    public navCtrl: NavController,
+    public modalCtrl: ModalController
+  ) { }
 
   ionViewDidEnter() {
     this.leafletMap();
@@ -30,6 +35,16 @@ export class HomePage {
     const markPoint = marker([12.972442, 77.594563]);
     markPoint.bindPopup('<p>Tashi Delek - Bangalore.</p>');
     this.map.addLayer(markPoint);
+  }
+
+  async gotoAmpstat() {
+    const modalAmpstat = await this.modalCtrl.create({
+      component: AmpstatPage,
+      componentProps: {
+        id: this.value
+      }
+    });
+    modalAmpstat.present();
   }
 
 }
