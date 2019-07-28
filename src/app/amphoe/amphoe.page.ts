@@ -87,11 +87,11 @@ export class AmphoePage implements OnInit {
       });
       console.log(this.data);
       console.log(this.categories);
-      await this.chart2();
+      await this.chart();
     });
   }
 
-  chart2() {
+  chart() {
     HighCharts.chart('container', {
       chart: {
         backgroundColor: 'rgba(20, 20, 20, 0.6)',
@@ -140,72 +140,6 @@ export class AmphoePage implements OnInit {
         type: undefined,
         data: this.data
       }]
-    });
-  }
-
-  chart() {
-    HighCharts.chart('container', {
-      chart: {
-        backgroundColor: 'rgba(20, 20, 20, 0.6)',
-        style: {
-          fontFamily: 'Bai Jamjuree',
-          color: '#ffffff'
-        },
-        type: 'bar'
-      },
-      title: {
-        text: '', style: {
-          color: '#ffffff',
-        }
-      },
-      yAxis: {
-        title: {
-          text: 'Number of Employees', style: {
-            color: '#ffffff',
-          }
-        }
-      },
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle', style: {
-          color: '#ffffff',
-        }
-      },
-
-      plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false
-          },
-          pointStart: 2010
-        }
-      },
-
-      credits: {
-        enabled: false
-      },
-      series: [{
-        name: 'Installation',
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-        type: undefined
-      }],
-
-      responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
-          },
-          chartOptions: {
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom'
-            }
-          }
-        }]
-      }
-
     });
   }
 
