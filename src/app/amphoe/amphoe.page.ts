@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import * as HighCharts from 'highcharts';
+import { NavParams, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-amphoe',
@@ -9,13 +10,21 @@ import * as HighCharts from 'highcharts';
 })
 export class AmphoePage implements OnInit {
   map: Map;
-  constructor() { }
+  public passValue: any;
+
+
+  constructor(
+    public navParams: NavParams,
+    public modalCtrl: ModalController
+  ) { }
 
   ngOnInit() {
+    this.passValue = this.navParams.get('data');
+    console.log(this.passValue);
   }
   ionViewDidEnter() {
     this.leafletMap();
-    this.chart()
+    this.chart();
   }
 
 
@@ -29,7 +38,7 @@ export class AmphoePage implements OnInit {
   }
 
   chart() {
-    var myChart = HighCharts.chart('container', {
+    const myChart = HighCharts.chart('container', {
       chart: {
         backgroundColor: 'rgba(20, 20, 20, 0.6)',
         style: {
@@ -93,5 +102,7 @@ export class AmphoePage implements OnInit {
     });
   }
 
-
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
 }

@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { Router } from '@angular/router';
+import { ServiceService } from './../service.service';
+import { ModalController } from '@ionic/angular';
+import { AmphoePage } from '../amphoe/amphoe.page';
 
 @Component({
   selector: 'app-home',
@@ -11,14 +14,22 @@ import { Router } from '@angular/router';
 export class HomePage {
 
   map: Map;
-
+  public rawHP: any;
+  public ampHP = [];
 
   constructor(
-    private router: Router
+    private router: Router,
+    public modalCtrl: ModalController,
+    public service: ServiceService
   ) { }
+
+  // ngOnInit() {
+
+  // }
 
   ionViewDidEnter() {
     this.leafletMap();
+    this.loadData();
   }
 
 
@@ -31,15 +42,55 @@ export class HomePage {
     }).addTo(this.map);
   }
 
-  gotoFullmap() {
-    this.router.navigateByUrl('/fullmap')
+  loadData() {
+    this.service.getAmpHP().then((res: any) => {
+      // console.log(res);
+      this.rawHP = res.data.features;
+      this.ampCount(this.rawHP);
+    });
   }
 
-  gotoAmphoe() {
-    this.router.navigateByUrl('/amphoe')
+  ampCount(hp: any) {
+    this.service.ampName().then((res: any) => {
+      const ampArr = res.data;
+      ampArr.forEach((e: any) => {
+        const datArr = [];
+        let i = 0;
+        hp.forEach((em: any) => {
+          if (e.ap_code === em.properties.admin.ap_code) {
+            datArr.push(em);
+            i += 1;
+          }
+        });
+        e.count = i;
+        e.data = datArr;
+        this.ampHP.push(e);
+      });
+    });
   }
+
+  gotoFullmap() {
+    this.router.navigateByUrl('/fullmap');
+  }
+
+  // gotoAmphoe(a: any) {
+  //   this.router.navigate(['/amphoe', { data: a }]);
+  // }
+
+  async gotoAmphoe(amp: any) {
+    const modalAmpstat = await this.modalCtrl.create({
+      component: AmphoePage,
+      componentProps: {
+        data: amp
+      }
+    });
+    modalAmpstat.present();
+  }
+
+
+
   gotoReport7day() {
-    this.router.navigateByUrl('/report7day')
+    this.router.navigateByUrl('/report7day');
   }
 
 }

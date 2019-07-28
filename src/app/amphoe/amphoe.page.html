@@ -1,12 +1,25 @@
-<ion-header>
-  <ion-toolbar>
+<!-- <ion-header>
+  <ion-navbar>
     <ion-title>amphoe</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref=""></ion-back-button>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="options"></ion-icon>
+      </button>
     </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+  </ion-navbar>
 
+</ion-header> -->
+
+<ion-toolbar color="dark">
+  <ion-buttons slot="secondary">
+    <ion-button (click)="closeModal()">
+      <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <!-- <ion-title>Dark Toolbar</ion-title> -->
+</ion-toolbar>
+
+<!-- <ion-button (click)="closeModal()">close</ion-button> -->
 <ion-content padding class="background">
   <div class="opci">
     <ion-item>
