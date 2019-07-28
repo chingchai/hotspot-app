@@ -49,10 +49,10 @@
     <ion-item *ngFor="let a of ampHP">
       <ion-icon name="pin" color="danger" slot="start"></ion-icon>
       <ion-label>
-        <h2>{{a.ap_tn}}</h2>
+        <h2>อ.{{a.ap_tn}}</h2>
       </ion-label>
       <p>{{a.count}} จุด</p>
-      <ion-button fill="outline" color="danger" slot="end" (click)="gotoAmphoe(a)">View</ion-button>
+      <ion-button fill="outline" color="danger" slot="end" (click)="gotoAmphoe(a.ap_code)">View</ion-button>
     </ion-item>
 
     <!-- <ion-item>

@@ -14,7 +14,7 @@ export class ServiceService {
 
   getAmpHP() {
     return new Promise((res, rej) => {
-      const url = `http://localhost:3000/hp/hp_amp/${this.pro}`;
+      const url = `http://localhost:3000/hp/hpamp/${this.pro}`;
       this.http.get(url).subscribe((data: any) => {
         res(data);
       }, (err: any) => {
@@ -23,7 +23,7 @@ export class ServiceService {
     });
   }
 
-  ampName() {
+  getAmpName() {
     return new Promise((res, rej) => {
       const url = `http://localhost:3000/hp/getamp/${this.pro}`;
       this.http.get(url).subscribe((data: any) => {
@@ -35,7 +35,28 @@ export class ServiceService {
 
   }
 
+  getTamHP(ampcode: any) {
+    return new Promise((res, rej) => {
+      const url = `http://localhost:3000/hp/hptam/${ampcode}`;
+      this.http.get(url).subscribe((data: any) => {
+        res(data);
+      }, (err: any) => {
+        rej(err);
+      });
+    });
+  }
 
+  getTamName(ampcode: any) {
+    return new Promise((res, rej) => {
+      const url = `http://localhost:3000/hp/gettam/${ampcode}`;
+      this.http.get(url).subscribe((data: any) => {
+        res(data);
+      }, (err: any) => {
+        rej(err);
+      });
+    });
+
+  }
 
 
 }

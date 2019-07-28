@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { Router } from '@angular/router';
 import { ServiceService } from './../service.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { AmphoePage } from '../amphoe/amphoe.page';
 
 @Component({
@@ -13,14 +13,15 @@ import { AmphoePage } from '../amphoe/amphoe.page';
 })
 export class HomePage {
 
-  map: Map;
+  public map: Map;
   public rawHP: any;
   public ampHP = [];
 
   constructor(
     private router: Router,
     public modalCtrl: ModalController,
-    public service: ServiceService
+    public service: ServiceService,
+    public loadingCtrl: LoadingController
   ) { }
 
   // ngOnInit() {
@@ -42,16 +43,21 @@ export class HomePage {
     }).addTo(this.map);
   }
 
-  loadData() {
+  async loadData() {
+    const loading = await this.loadingCtrl.create({
+      message: 'ดาวน์โหลดข้อมูล...'
+    });
+    await loading.present();
+
     this.service.getAmpHP().then((res: any) => {
       // console.log(res);
       this.rawHP = res.data.features;
-      this.ampCount(this.rawHP);
+      this.hpCount(this.rawHP);
     });
   }
 
-  ampCount(hp: any) {
-    this.service.ampName().then((res: any) => {
+  hpCount(hp: any) {
+    this.service.getAmpName().then((res: any) => {
       const ampArr = res.data;
       ampArr.forEach((e: any) => {
         const datArr = [];
@@ -65,6 +71,7 @@ export class HomePage {
         e.count = i;
         e.data = datArr;
         this.ampHP.push(e);
+        this.loadingCtrl.dismiss();
       });
     });
   }
@@ -81,7 +88,7 @@ export class HomePage {
     const modalAmpstat = await this.modalCtrl.create({
       component: AmphoePage,
       componentProps: {
-        data: amp
+        amp_code: amp
       }
     });
     modalAmpstat.present();
