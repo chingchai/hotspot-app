@@ -1,35 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import * as HighCharts from 'highcharts';
 
 @Component({
-  selector: 'app-amphoe',
-  templateUrl: './amphoe.page.html',
-  styleUrls: ['./amphoe.page.scss'],
+  selector: 'app-report7day',
+  templateUrl: './report7day.page.html',
+  styleUrls: ['./report7day.page.scss'],
 })
-export class AmphoePage implements OnInit {
-  map: Map;
+export class Report7dayPage {
+
   constructor() { }
 
-  ngOnInit() {
-  }
   ionViewDidEnter() {
-    this.leafletMap();
     this.chart()
   }
-
-
-  leafletMap() {
-    this.map = new Map('map_amphoe', { scrollWheelZoom: false }).setView([16.738560, 100.207789], 6);
-
-    tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
-      maxZoom: 20,
-      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    }).addTo(this.map);
-  }
-
   chart() {
-    var myChart = HighCharts.chart('container', {
+    var myChart = HighCharts.chart('container2', {
       chart: {
         backgroundColor: 'rgba(20, 20, 20, 0.6)',
         style: {
@@ -92,6 +77,4 @@ export class AmphoePage implements OnInit {
 
     });
   }
-
-
 }

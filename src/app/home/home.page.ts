@@ -38,5 +38,8 @@ export class HomePage {
   gotoAmphoe() {
     this.router.navigateByUrl('/amphoe')
   }
+  gotoReport7day() {
+    this.router.navigateByUrl('/report7day')
+  }
 
 }

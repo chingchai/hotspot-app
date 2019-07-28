@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },
   { path: 'fullmap', loadChildren: './fullmap/fullmap.module#FullmapPageModule' },
   { path: 'amphoe', loadChildren: './amphoe/amphoe.module#AmphoePageModule' },
+  { path: 'report7day', loadChildren: './report7day/report7day.module#Report7dayPageModule' },
 ];
 
 @NgModule({
