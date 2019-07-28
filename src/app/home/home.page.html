@@ -33,40 +33,13 @@
   </div>
   <div class="opci">
 
-    <ion-item>
+    <ion-item *ngFor="let a of ampHP">
       <ion-icon name="pin" color="danger" slot="start"></ion-icon>
       <ion-label>
-        <h2>อ.xxx</h2>
+        <h2>{{a.ap_tn}}</h2>
       </ion-label>
-      <p>2 จุด</p>
-      <ion-button fill="outline" color="danger" slot="end" (click)='gotoAmpstat()'>View</ion-button>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon name="pin" color="danger" slot="start"></ion-icon>
-      <ion-label>
-        <h2>อ.xxx</h2>
-      </ion-label>
-      <p>2 จุด</p>
-      <ion-button fill="outline" color="danger" slot="end">View</ion-button>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon name="pin" color="danger" slot="start"></ion-icon>
-      <ion-label>
-        <h2>อ.xxx</h2>
-      </ion-label>
-      <p>2 จุด</p>
-      <ion-button fill="outline" color="danger" slot="end">View</ion-button>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon name="pin" color="danger" slot="start"></ion-icon>
-      <ion-label>
-        <h2>อ.xxx</h2>
-      </ion-label>
-      <p>2 จุด</p>
-      <ion-button fill="outline" color="danger" slot="end">View</ion-button>
+      <p>{{a.count}} จุด</p>
+      <ion-button fill="outline" color="danger" slot="end" (click)='gotoAmpstat(a)'>View</ion-button>
     </ion-item>
 
   </div>

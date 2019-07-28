@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { NavController, ModalController } from '@ionic/angular';
 import { AmpstatPage } from '../ampstat/ampstat.page';
+import { ServiceService } from './../service.service';
 
 @Component({
   selector: 'app-home',
@@ -12,15 +13,20 @@ import { AmpstatPage } from '../ampstat/ampstat.page';
 export class HomePage {
 
   public map: Map;
+
+  public rawHP: any;
+  public ampHP = [];
   public value = 1;
 
   constructor(
     public navCtrl: NavController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public service: ServiceService
   ) { }
 
   ionViewDidEnter() {
     this.leafletMap();
+    this.loadData();
   }
 
 
@@ -37,11 +43,38 @@ export class HomePage {
     this.map.addLayer(markPoint);
   }
 
-  async gotoAmpstat() {
+  loadData() {
+    this.service.getAmpHP().then((res: any) => {
+      // console.log(res);
+      this.rawHP = res.data.features;
+      this.ampCount(this.rawHP);
+    });
+  }
+
+  ampCount(hp: any) {
+    this.service.ampName().then((res: any) => {
+      const ampArr = res.data;
+      ampArr.forEach((e: any) => {
+        const datArr = [];
+        let i = 0;
+        hp.forEach((em: any) => {
+          if (e.ap_code === em.properties.admin.ap_code) {
+            datArr.push(em);
+            i += 1;
+          }
+        });
+        e.count = i;
+        e.data = datArr;
+        this.ampHP.push(e);
+      });
+    });
+  }
+
+  async gotoAmpstat(amp: any) {
     const modalAmpstat = await this.modalCtrl.create({
       component: AmpstatPage,
       componentProps: {
-        id: this.value
+        data: amp
       }
     });
     modalAmpstat.present();
