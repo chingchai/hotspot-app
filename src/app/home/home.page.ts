@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 
-import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+// import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import * as L from 'leaflet';
 import { Router } from '@angular/router';
 import { ServiceService } from './../service.service';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { AmphoePage } from '../amphoe/amphoe.page';
+import { FullmapPage } from '../fullmap/fullmap.page';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,11 @@ import { AmphoePage } from '../amphoe/amphoe.page';
 })
 export class HomePage {
 
-  public map: Map;
+  public map: L.Map;
   public rawHP: any;
   public ampHP = [];
+  public sumHP: any = 0;
+  public proHP = [];
 
   constructor(
     private router: Router,
@@ -35,11 +39,35 @@ export class HomePage {
 
 
   leafletMap() {
-    this.map = new Map('map', { scrollWheelZoom: false }).setView([16.738560, 100.207789], 6);
+    this.map = new L.Map('map', { scrollWheelZoom: true }).setView([19.234262, 100.191216], 8);
 
-    tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
       maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(this.map);
+
+    const tam = L.tileLayer.wms('http://119.59.125.191/geoserver/omfs/wms?', {
+      layers: 'omfs:tambon',
+      format: 'image/png',
+      transparent: true,
+      zIndex: 5,
+      CQL_FILTER: 'pv_code=56'
+    }).addTo(this.map);
+
+    const amp = L.tileLayer.wms('http://119.59.125.191/geoserver/omfs/wms?', {
+      layers: 'omfs:amphoe',
+      format: 'image/png',
+      transparent: true,
+      zIndex: 5,
+      CQL_FILTER: 'pv_code=56'
+    }).addTo(this.map);
+
+    const pro = L.tileLayer.wms('http://119.59.125.191/geoserver/omfs/wms?', {
+      layers: 'omfs:province',
+      format: 'image/png',
+      transparent: true,
+      zIndex: 5,
+      CQL_FILTER: 'pv_code=56'
     }).addTo(this.map);
   }
 
@@ -56,7 +84,13 @@ export class HomePage {
     });
   }
 
-  hpCount(hp: any) {
+  async hpCount(hp: any) {
+    const fireIcon = L.icon({
+      iconUrl: await this.service.fireIcon,
+      iconSize: [32, 32],
+      iconAnchor: [12, 37],
+      popupAnchor: [5, -30]
+    });
     this.service.getAmpName().then((res: any) => {
       const ampArr = res.data;
       ampArr.forEach((e: any) => {
@@ -65,7 +99,18 @@ export class HomePage {
         hp.forEach((em: any) => {
           if (e.ap_code === em.properties.admin.ap_code) {
             datArr.push(em);
+
+            this.proHP.push(em);
+
+            // console.log(em);
+            L.marker([em.geometry.coordinates[1], em.geometry.coordinates[0]], {
+              icon: fireIcon,
+            }).bindPopup(
+              '<p>hotspot</p>'
+            ).addTo(this.map);
+
             i += 1;
+            this.sumHP += 1;
           }
         });
         e.count = i;
@@ -73,11 +118,22 @@ export class HomePage {
         this.ampHP.push(e);
         this.loadingCtrl.dismiss();
       });
+      // console.log(this.proHP);
     });
   }
 
-  gotoFullmap() {
-    this.router.navigateByUrl('/fullmap');
+  // gotoFullmap() {
+  //   this.router.navigateByUrl('/fullmap');
+  // }
+
+  async gotoFullmap(amp: any) {
+    const modalFullmap = await this.modalCtrl.create({
+      component: FullmapPage,
+      componentProps: {
+        data: this.proHP
+      }
+    });
+    modalFullmap.present();
   }
 
   // gotoAmphoe(a: any) {
@@ -93,8 +149,6 @@ export class HomePage {
     });
     modalAmpstat.present();
   }
-
-
 
   gotoReport7day() {
     this.router.navigateByUrl('/report7day');

@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { from } from 'rxjs';
 import { AmphoePageModule } from './amphoe/amphoe.module';
 import { TambonPageModule } from './tambon/tambon.module';
+import { FullmapPageModule } from './fullmap/fullmap.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +25,8 @@ import { TambonPageModule } from './tambon/tambon.module';
     AppRoutingModule,
     HttpClientModule,
     AmphoePageModule,
-    TambonPageModule
+    TambonPageModule,
+    FullmapPageModule
   ],
   providers: [
     StatusBar,
