@@ -3,6 +3,7 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import * as HighCharts from 'highcharts';
 import { NavParams, ModalController, LoadingController } from '@ionic/angular';
 import { ServiceService } from '../service.service';
+import { TambonPage } from '../tambon/tambon.page';
 
 @Component({
   selector: 'app-amphoe',
@@ -37,7 +38,7 @@ export class AmphoePage implements OnInit {
   }
 
   leafletMap() {
-    this.map = new Map('map_amphoe', { scrollWheelZoom: true }).setView([19.234262, 100.191216], 8);
+    this.map = new Map('map-amp', { scrollWheelZoom: true }).setView([19.234262, 100.191216], 8);
 
     tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
       maxZoom: 20,
@@ -52,7 +53,7 @@ export class AmphoePage implements OnInit {
     await loading.present();
 
     this.service.getTamHP(this.ampCode).then((res: any) => {
-      console.log(res);
+      // console.log(res);
       this.rawHP = res.data.features;
       this.hpCount(this.rawHP);
     });
@@ -85,8 +86,6 @@ export class AmphoePage implements OnInit {
         this.categories.push(e.tb_tn);
         this.data.push(e.count);
       });
-      console.log(this.data);
-      console.log(this.categories);
       await this.chart();
     });
   }
@@ -141,6 +140,16 @@ export class AmphoePage implements OnInit {
         data: this.data
       }]
     });
+  }
+
+  async gotoTamHP(a: any) {
+    const modalTamHP = await this.modalCtrl.create({
+      component: TambonPage,
+      componentProps: {
+        data: a
+      }
+    });
+    modalTamHP.present();
   }
 
   closeModal() {

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -12,6 +13,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { from } from 'rxjs';
 import { AmphoePageModule } from './amphoe/amphoe.module';
+import { TambonPageModule } from './tambon/tambon.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,13 +23,15 @@ import { AmphoePageModule } from './amphoe/amphoe.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    AmphoePageModule
+    AmphoePageModule,
+    TambonPageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ServiceService
+    ServiceService,
+    Geolocation
   ],
   bootstrap: [AppComponent]
 })
