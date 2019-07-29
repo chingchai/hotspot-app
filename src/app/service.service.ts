@@ -17,7 +17,7 @@ export class ServiceService {
 
   getAmpHP7d() {
     return new Promise((res, rej) => {
-      const url = `http://localhost:3000/hp/hpamp7d/${this.pro}`;
+      const url = `http://119.59.125.191:3000/hp/hpamp7d/${this.pro}`;
       this.http.get(url).subscribe((data: any) => {
         res(data);
       }, (err: any) => {

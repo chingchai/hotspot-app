@@ -33,14 +33,17 @@ export class Report7dayPage {
     await loading.present();
 
     this.service.getAmpHP7d().then((res: any) => {
-      // console.log(res);
+      console.log(res);
       this.rawHP = res.data.features;
       this.hpCount(this.rawHP);
     });
   }
 
   async hpCount(hp: any) {
-
+    // const current = new Date();
+    // const formatted = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+    // console.log(formatted);
+    // console.log(new Date('2019-04-10'));
     this.service.getAmpName().then(async (res: any) => {
       const ampArr = res.data;
       ampArr.forEach((e: any) => {
@@ -49,9 +52,7 @@ export class Report7dayPage {
         hp.forEach((em: any) => {
           if (e.ap_code === em.properties.admin.ap_code) {
             datArr.push(em);
-
             // this.proHP.push(em);
-
             i += 1;
           }
         });
@@ -60,7 +61,7 @@ export class Report7dayPage {
         this.ampHP.push(e);
         this.loadingCtrl.dismiss();
       });
-      console.log(this.ampHP)
+      // console.log(this.ampHP)
       this.ampHP.forEach((e: any) => {
         this.categories.push(e.ap_tn);
         this.data.push(e.count);
