@@ -17,7 +17,7 @@ export class ServiceService {
 
   getAmpHP() {
     return new Promise((res, rej) => {
-      const url = `http://localhost:3000/hp/hpamp/${this.pro}`;
+      const url = `http://119.59.125.191:3000/hp/hpamp/${this.pro}`;
       this.http.get(url).subscribe((data: any) => {
         res(data);
       }, (err: any) => {
@@ -28,7 +28,7 @@ export class ServiceService {
 
   getAmpName() {
     return new Promise((res, rej) => {
-      const url = `http://localhost:3000/hp/getamp/${this.pro}`;
+      const url = `http://119.59.125.191:3000/hp/getamp/${this.pro}`;
       this.http.get(url).subscribe((data: any) => {
         res(data);
       }, (err: any) => {
@@ -40,7 +40,7 @@ export class ServiceService {
 
   getTamHP(ampcode: any) {
     return new Promise((res, rej) => {
-      const url = `http://localhost:3000/hp/hptam/${ampcode}`;
+      const url = `http://119.59.125.191:3000/hp/hptam/${ampcode}`;
       this.http.get(url).subscribe((data: any) => {
         res(data);
       }, (err: any) => {
@@ -51,7 +51,7 @@ export class ServiceService {
 
   getTamName(ampcode: any) {
     return new Promise((res, rej) => {
-      const url = `http://localhost:3000/hp/gettam/${ampcode}`;
+      const url = `http://119.59.125.191:3000/hp/gettam/${ampcode}`;
       this.http.get(url).subscribe((data: any) => {
         res(data);
       }, (err: any) => {
