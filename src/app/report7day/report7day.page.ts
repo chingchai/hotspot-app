@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as HighCharts from 'highcharts';
+import { ServiceService } from '../service.service';
+import { LoadingController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-report7day',
@@ -8,73 +10,116 @@ import * as HighCharts from 'highcharts';
 })
 export class Report7dayPage {
 
-  constructor() { }
+  public rawHP: any;
+  public ampHP: any = [];
+  public categories: any = [];
+  public data: any = [];
+
+
+  constructor(
+    public service: ServiceService,
+    public loadingCtrl: LoadingController,
+    public modalCtrl: ModalController
+  ) { }
 
   ionViewDidEnter() {
-    this.chart()
+    this.loadData();
   }
+
+  async loadData() {
+    const loading = await this.loadingCtrl.create({
+      message: 'ดาวน์โหลดข้อมูล...'
+    });
+    await loading.present();
+
+    this.service.getAmpHP7d().then((res: any) => {
+      // console.log(res);
+      this.rawHP = res.data.features;
+      this.hpCount(this.rawHP);
+    });
+  }
+
+  async hpCount(hp: any) {
+
+    this.service.getAmpName().then(async (res: any) => {
+      const ampArr = res.data;
+      ampArr.forEach((e: any) => {
+        const datArr = [];
+        let i = 0;
+        hp.forEach((em: any) => {
+          if (e.ap_code === em.properties.admin.ap_code) {
+            datArr.push(em);
+
+            // this.proHP.push(em);
+
+            i += 1;
+          }
+        });
+        e.count = i;
+        e.data = datArr;
+        this.ampHP.push(e);
+        this.loadingCtrl.dismiss();
+      });
+      console.log(this.ampHP)
+      this.ampHP.forEach((e: any) => {
+        this.categories.push(e.ap_tn);
+        this.data.push(e.count);
+      });
+      await this.chart();
+    });
+  }
+
   chart() {
-    var myChart = HighCharts.chart('container2', {
+    HighCharts.chart('container', {
       chart: {
         backgroundColor: 'rgba(20, 20, 20, 0.6)',
         style: {
-          fontFamily: 'Bai Jamjuree',
+          fontFamily: 'Tahoma',
           color: '#ffffff'
-        }
+        },
+        type: 'column'
       },
       title: {
-        text: '', style: {
-          color: '#ffffff',
+        text: 'จำนวน hotspot 7 วันที่ผ่านมา',
+        style: {
+          fontFamily: 'Tahoma',
+          color: '#ffffff'
+        },
+      },
+      xAxis: {
+        categories: this.categories,
+        labels: {
+          style: {
+            fontFamily: 'Tahoma',
+            color: '#ffffff'
+          },
         }
       },
       yAxis: {
-        title: {
-          text: 'Number of Employees', style: {
-            color: '#ffffff',
-          }
-        }
-      },
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle', style: {
-          color: '#ffffff',
-        }
-      },
-
-      plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false
+        min: 0,
+        labels: {
+          style: {
+            fontFamily: 'Tahoma',
+            color: '#ffffff'
           },
-          pointStart: 2010
+        },
+        title: {
+          text: 'hotspot (จุด)',
+          style: {
+            fontFamily: 'Tahoma',
+            color: '#ffffff'
+          },
         }
-      },
-
-      credits: {
-        enabled: false
       },
       series: [{
-        name: 'Installation',
-        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-        type: undefined
-      }],
-
-      responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
-          },
-          chartOptions: {
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom'
-            }
-          }
-        }]
-      }
-
+        name: 'hotspot',
+        type: undefined,
+        data: this.data
+      }]
     });
+  }
+
+  closeModal() {
+    this.modalCtrl.dismiss();
   }
 }

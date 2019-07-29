@@ -7,6 +7,7 @@ import { ServiceService } from './../service.service';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { AmphoePage } from '../amphoe/amphoe.page';
 import { FullmapPage } from '../fullmap/fullmap.page';
+import { Report7dayPage } from '../report7day/report7day.page';
 
 @Component({
   selector: 'app-home',
@@ -150,8 +151,18 @@ export class HomePage {
     modalAmpstat.present();
   }
 
-  gotoReport7day() {
-    this.router.navigateByUrl('/report7day');
+  // gotoReport7day() {
+  //   this.router.navigateByUrl('/report7day');
+  // }
+
+  async gotoReport7day() {
+    const modalAmpstat = await this.modalCtrl.create({
+      component: Report7dayPage,
+      componentProps: {
+        amp_code: 'amp'
+      }
+    });
+    modalAmpstat.present();
   }
 
 }

@@ -1,21 +1,20 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>report7day</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref=""></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content padding  class="background">
-
+<ion-content padding class="background">
   <div class="opci">
     <ion-item>
-      <ion-label>Chart</ion-label>
+      <ion-label>hotspot 7 วันที่ผ่านมา</ion-label>
+      <ion-button color="danger" slot="end" (click)="closeModal()">
+        <ion-icon name="close-circle"></ion-icon>&nbsp;ปิด
+      </ion-button>
+    </ion-item>
+  </div>
+  <p></p>
+  <div class="opci">
+    <ion-item>
+      <ion-label>สถิติ</ion-label>
       <div class="button_map">
       </div>
 
     </ion-item>
   </div>
-  <div id="container2" style="display: block;height: 40%;"></div>
+  <div id="container" style="display: block;height: 60%;"></div>
 </ion-content>
