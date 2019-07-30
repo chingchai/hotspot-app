@@ -17,6 +17,7 @@ import { TambonPageModule } from './tambon/tambon.module';
 import { FullmapPageModule } from './fullmap/fullmap.module';
 import { Report7dayPageModule } from './report7day/report7day.module';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

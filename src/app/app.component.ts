@@ -15,6 +15,23 @@ export class AppComponent {
     private statusBar: StatusBar
   ) {
     this.initializeApp();
+    platform.ready().then(() => {
+      statusBar.styleDefault();
+      splashScreen.hide();
+  
+      // OneSignal Code start:
+      // Enable to debug issues:
+      // window["plugins"].OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+  
+      var notificationOpenedCallback = function(jsonData) {
+        console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+      };
+  
+      window["plugins"].OneSignal
+        .startInit("79500f59-2cca-4a08-bfff-7d36712b6ec8", "project-543437587024")
+        .handleNotificationOpened(notificationOpenedCallback)
+        .endInit();
+    });
   }
 
   initializeApp() {
