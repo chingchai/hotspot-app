@@ -1,7 +1,7 @@
 <ion-content padding class="background">
   <div class="opci">
     <ion-item>
-      <ion-label>ค้นหาเส้นทางไปยังตำแหน่ง hotspot</ion-label>
+      <ion-label  text-wrap>ค้นหาเส้นทางไปยังตำแหน่ง hotspot</ion-label>
       <ion-button color="danger" slot="end" (click)="closeModal()">
         <ion-icon name="close-circle"></ion-icon>&nbsp;ปิด
       </ion-button>
@@ -26,7 +26,7 @@
       <ion-icon name="pin" color="danger" slot="start"></ion-icon>
       <ion-label>
         <h2>ต.{{a.properties.admin.tb_tn}}</h2>
-        <p>ละติจูด: {{a.properties.latitude}} ลองจิจูด: {{a.properties.longitude}}</p>
+        <p text-wrap>ละติจูด: {{a.properties.latitude}} ลองจิจูด: {{a.properties.longitude}}</p>
       </ion-label>
       <ion-button fill="clear" color="danger" slot="end" (click)="routing(a)">
         <ion-icon slot="icon-only" name="git-branch"></ion-icon>
